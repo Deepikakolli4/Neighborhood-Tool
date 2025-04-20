@@ -1,5 +1,5 @@
 const express = require('express');
-const Reservation = require('../models/Reservation');
+const reservationService = require('../services/reservationService');
 const auth = require('../middleware/auth');
 
 const router = express.Router();
@@ -7,26 +7,20 @@ const router = express.Router();
 // Get user reservations
 router.get('/', auth, async (req, res) => {
   try {
-    const reservations = await Reservation.find({ user: req.user.id }).populate('tool');
+    const reservations = await reservationService.getUserReservations(req.user.id);
     res.json(reservations);
   } catch (err) {
-    res.status(500).json({ message: 'Server error' });
+    res.status(500).json({ message: err.message });
   }
 });
 
 // Get upcoming reservations (reminders)
 router.get('/reminders', auth, async (req, res) => {
   try {
-    const today = new Date();
-    const threeDaysFromNow = new Date(today);
-    threeDaysFromNow.setDate(today.getDate() + 3);
-    const reservations = await Reservation.find({
-      user: req.user.id,
-      startDate: { $gte: today, $lte: threeDaysFromNow },
-    }).populate('tool');
+    const reservations = await reservationService.getUpcomingReservations(req.user.id);
     res.json(reservations);
   } catch (err) {
-    res.status(500).json({ message: 'Server error' });
+    res.status(500).json({ message: err.message });
   }
 });
 
@@ -34,16 +28,10 @@ router.get('/reminders', auth, async (req, res) => {
 router.post('/', auth, async (req, res) => {
   const { tool, startDate, endDate } = req.body;
   try {
-    const reservation = new Reservation({
-      tool,
-      user: req.user.id,
-      startDate,
-      endDate,
-    });
-    await reservation.save();
+    const reservation = await reservationService.createReservation(req.user.id, tool, startDate, endDate);
     res.status(201).json(reservation);
   } catch (err) {
-    res.status(500).json({ message: 'Server error' });
+    res.status(500).json({ message: err.message });
   }
 });
 
