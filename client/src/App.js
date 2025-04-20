@@ -1,17 +1,19 @@
 import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
 import { AuthProvider } from './context/AuthContext';
-import Login from './components/Login/login';
-import Signup from './components/Signup/signup';
-import ToolList from './components/ToolList/toollist';
-import ToolDetail from './components/ToolDetail/toolDetail';
-import ReservationDashboard from './components/Reservation/reservation';
-import UserDashboard from './components/UserDashboard/userdashboard';
-import AdminDashboard from './components/Dashboard/dashboard';
-import Navbar from './components/Navbar/navbar';
-import Footer from './components/Footer/footer';
-import AboutUs from './components/AboutUs/aboutus';
-import DamageReport from './components/DamageReport/damage';
-import Introduction from './components/Introduction/introduction';
+import Login from '../components/Login/login';
+import Signup from '../components/Signup/signup';
+import ToolList from '../components/ToolList/toollist';
+import ToolDetail from '../components/ToolDetail/toolDetail';
+import ReservationDashboard from '../components/Reservation/reservation';
+import UserDashboard from '../components/UserDashboard/userdashboard';
+import AdminDashboard from '../components/Dashboard/dashboard';
+import Navbar from '../components/Navbar/navbar';
+import Footer from '../components/Footer/footer';
+import AboutUs from '../components/AboutUs/aboutus';
+import DamageReport from '../components/DamageReport/damage';
+import Introduction from '../components/Introduction/introduction';
+import PrivateRoute from './components/PrivateRoute';
+import AdminRoute from './components/AdminRoute'; // Updated path
 import './styles.css';
 
 function App() {
