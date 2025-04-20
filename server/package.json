@@ -1,0 +1,12 @@
+{
+  "name": "server",
+  "version": "1.0.0",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "keywords": [],
+  "author": "Deepika Kolli",
+  "license": "ISC",
+  "description": "This the backend of my project Neighbourhood Tool Library"
+}
