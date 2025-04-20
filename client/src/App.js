@@ -1,5 +1,6 @@
-import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
-import { AuthProvider } from './context/AuthContext';
+import { BrowserRouter as Router, Routes, Route, Navigate } from 'react-router-dom';
+import { useContext } from 'react';
+import { AuthContext, AuthProvider } from './context/AuthContext'; // Ensure correct import
 import AboutUs from './components/AboutUs/aboutus';
 import AdminDashboard from './components/Dashboard/dashboard';
 import Footer from './components/Footer/footer';
@@ -17,6 +18,12 @@ import PrivateRoute from './components/PrivateRoute';
 import './App.css';
 
 function App() {
+  const { user, loading } = useContext(AuthContext); // Ensure AuthContext is used correctly
+
+  if (loading) {
+    return <div>Loading...</div>; // Show loading indicator while authentication is in progress
+  }
+
   return (
     <AuthProvider>
       <Router>
@@ -30,7 +37,7 @@ function App() {
               <Route path="/login" element={<Login />} />
               <Route path="/signup" element={<Signup />} />
               <Route path="/tools" element={<ToolList />} />
-              <Route path="/tools/:id" element={<ToolDetail />} />
+              <Route path="/tools/:id" element={<ToolDetail />} /> {/* Add this route */}
               <Route
                 path="/reservations"
                 element={
@@ -41,11 +48,7 @@ function App() {
               />
               <Route
                 path="/dashboard"
-                element={
-                  <PrivateRoute>
-                    <UserDashboard />
-                  </PrivateRoute>
-                }
+                element={user ? <UserDashboard /> : <Navigate to="/login" />}
               />
               <Route
                 path="/admin"

@@ -2,16 +2,32 @@ const express = require('express');
 const toolService = require('../services/toolService');
 const auth = require('../middleware/auth');
 const admin = require('../middleware/admin');
+const Tool = require('../models/Tool'); // Ensure Tool model is correctly imported
 
 const router = express.Router();
 
 // Get all tools
 router.get('/', async (req, res) => {
   try {
-    const tools = await toolService.getAllTools();
-    res.json(tools);
+    const tools = await Tool.find(); // Fetch tools from the database
+    res.json(tools); // Ensure the response includes the `image` field
   } catch (err) {
-    res.status(500).json({ message: err.message });
+    console.error('Error fetching tools:', err);
+    res.status(500).json({ message: 'Failed to fetch tools' });
+  }
+});
+
+// Get a specific tool by ID
+router.get('/:id', async (req, res) => {
+  try {
+    const tool = await Tool.findById(req.params.id); // Fetch tool by ID
+    if (!tool) {
+      return res.status(404).json({ message: 'Tool not found' });
+    }
+    res.json(tool);
+  } catch (err) {
+    console.error('Error fetching tool:', err);
+    res.status(500).json({ message: 'Failed to fetch tool' });
   }
 });
 

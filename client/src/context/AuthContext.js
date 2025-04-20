@@ -44,7 +44,7 @@ export const AuthProvider = ({ children }) => {
           logout();
         }
       }
-      setLoading(false);
+      setLoading(false); // Ensure loading is set to false
     };
 
     initializeAuth();
@@ -52,29 +52,32 @@ export const AuthProvider = ({ children }) => {
 
   const login = async (email, password) => {
     try {
-      const res = await fetch('http://localhost:5000/api/auth/login', {
+      const res = await fetch('http://localhost:8000/api/auth/login', { // Backend login endpoint
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
         },
-        body: JSON.stringify({ email, password }),
+        body: JSON.stringify({ email, password }), // Send email and password to backend
       });
-      if (res.ok) {
-        const { token, user } = await res.json();
-        localStorage.setItem('token', token);
-        setUser({
-          id: user._id,
-          name: user.name,
-          email: user.email,
-          role: user.role,
-        });
-        return true;
-      } else {
-        const { message } = await res.json();
-        throw new Error(message || 'Login failed');
+
+      if (!res.ok) {
+        const errorResponse = await res.json();
+        throw new Error(errorResponse.message || 'Login failed');
       }
+
+      const data = await res.json();
+      // Store the token in localStorage
+      localStorage.setItem('token', data.token);
+
+      // Update the user state
+      setUser({
+        id: data.user.id,
+        name: data.user.username,
+        email: data.user.email,
+        role: data.user.role,
+      });
     } catch (err) {
-      console.error('Login error:', err);
+      console.error('Login error:', err); // Log the error for debugging
       throw err;
     }
   };

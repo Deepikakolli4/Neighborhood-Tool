@@ -5,7 +5,7 @@ import './signup.css';
 
 const Signup = () => {
   const [formData, setFormData] = useState({
-    name: '',
+    username: '', // Change `name` to `username`
     email: '',
     password: '',
     role: 'member',
@@ -21,7 +21,7 @@ const Signup = () => {
   const handleSignup = async (e) => {
     e.preventDefault();
     try {
-      const res = await fetch('http://localhost:5000/api/auth/register', {
+      const res = await fetch('http://localhost:8000/api/auth/signup', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
@@ -30,14 +30,21 @@ const Signup = () => {
       });
       if (res.ok) {
         const { token, user } = await res.json();
-        await login(formData.email, formData.password); // Log in after signup
-        navigate('/dashboard');
+        try {
+          console.log('Signup successful, navigating to login page'); // Log successful signup
+          navigate('/login'); // Redirect to the login page
+        } catch (loginError) {
+          console.error('Navigation error:', loginError); // Log any errors during navigation
+          setError('Signup successful, but navigation failed. Please try logging in.');
+        }
       } else {
-        const { message } = await res.json();
-        setError(message || 'Signup failed');
+        const errorResponse = await res.json();
+        console.error('Signup error response:', errorResponse); // Log the error response
+        setError(errorResponse.message || 'Signup failed'); // Display the specific error message
       }
     } catch (err) {
-      setError('Server error');
+      console.error('Signup server error:', err); // Log the error object
+      setError('Server error. Please try again later.');
     }
   };
 
@@ -47,10 +54,10 @@ const Signup = () => {
       {error && <p className="error">{error}</p>}
       <input
         type="text"
-        name="name"
-        placeholder="Name"
+        name="username" // Change `name` to `username`
+        placeholder="Username"
         className="signup-input"
-        value={formData.name}
+        value={formData.username} // Change `formData.name` to `formData.username`
         onChange={handleChange}
         required
       />

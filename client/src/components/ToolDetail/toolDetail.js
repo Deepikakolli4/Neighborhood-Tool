@@ -1,8 +1,8 @@
 import { useState, useEffect, useContext } from 'react';
 import { useParams, useNavigate } from 'react-router-dom';
 import { AuthContext } from '../../context/AuthContext';
-import ReviewForm from '../Review/review'; // Use default export
-import DamageReport from '../DamageReport/damage'; // Use default export
+import ReviewForm from '../Review/review';
+import DamageReport from '../DamageReport/damage';
 import './toolDetail.css';
 
 function ToolDetail() {
@@ -15,10 +15,19 @@ function ToolDetail() {
   const navigate = useNavigate();
 
   useEffect(() => {
-    fetch(`http://localhost:5000/api/tools/${id}`)
-      .then((res) => res.json())
-      .then((data) => setTool(data))
-      .catch(() => setError('Failed to load tool'));
+    const fetchTool = async () => {
+      try {
+        const res = await fetch(`http://localhost:8000/api/tools/${id}`);
+        if (!res.ok) throw new Error('Failed to fetch tool details');
+        const data = await res.json();
+        setTool(data);
+      } catch (err) {
+        console.error('Error fetching tool details:', err);
+        setError(err.message);
+      }
+    };
+
+    fetchTool();
   }, [id]);
 
   const handleReserve = async (e) => {
@@ -28,7 +37,7 @@ function ToolDetail() {
       return;
     }
     try {
-      const res = await fetch('http://localhost:5000/api/reservations', {
+      const res = await fetch('http://localhost:8000/api/reservations', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
@@ -46,19 +55,26 @@ function ToolDetail() {
     }
   };
 
-  if (!tool) return <div>Loading...</div>;
+  if (error) return <p className="error">{error}</p>;
+  if (!tool) return <p>Loading...</p>;
 
   return (
     <div className="tool-detail">
       <div className="container">
         <h1>{tool.name}</h1>
         {error && <p className="error">{error}</p>}
-        <div className="tool-info">
-          <p><strong>Description:</strong> {tool.description}</p>
-          <p><strong>Category:</strong> {tool.category}</p>
-          <p><strong>Available:</strong> {tool.isAvailable ? 'Yes' : 'No'}</p>
-          {tool.imageUrl && <img src={tool.imageUrl} alt={tool.name} />}
+
+        <div className="tool-info-wrapper">
+          <div className="tool-image">
+            {tool.imageUrl && <img src={tool.imageUrl} alt={tool.name} />}
+          </div>
+          <div className="tool-info">
+            <p><strong>Description:</strong> {tool.description}</p>
+            <p><strong>Category:</strong> {tool.category}</p>
+            <p><strong>Available:</strong> {tool.isAvailable ? 'Yes' : 'No'}</p>
+          </div>
         </div>
+
         {user && (
           <form onSubmit={handleReserve} className="reservation-form">
             <h2>Reserve Tool</h2>
@@ -85,6 +101,7 @@ function ToolDetail() {
             <button type="submit" className="btn">Reserve</button>
           </form>
         )}
+
         {user && <ReviewForm toolId={id} />}
         {user && <DamageReport toolId={id} />}
       </div>
