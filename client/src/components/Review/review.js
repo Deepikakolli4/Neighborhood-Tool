@@ -1,14 +1,26 @@
-import React, { useState, useEffect } from 'react';
+import { useState, useEffect } from 'react';
 import './review.css';
 
-const ReviewForm = () => {
+const ReviewForm = ({ toolId }) => {
   const [rating, setRating] = useState(5);
   const [comment, setComment] = useState('');
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
-    console.log({ rating, comment });
-    // send review to backend
+    try {
+      await fetch('http://localhost:5000/api/reviews', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+          Authorization: `Bearer ${localStorage.getItem('token')}`,
+        },
+        body: JSON.stringify({ tool: toolId, rating, comment }),
+      });
+      setRating(5);
+      setComment('');
+    } catch (err) {
+      console.error(err);
+    }
   };
 
   return (
@@ -21,7 +33,7 @@ const ReviewForm = () => {
           onChange={(e) => setRating(parseInt(e.target.value))}
           className="review-select"
         >
-          {[1, 2, 3, 4, 5].map(num => (
+          {[1, 2, 3, 4, 5].map((num) => (
             <option key={num} value={num}>{num}</option>
           ))}
         </select>
@@ -36,13 +48,13 @@ const ReviewForm = () => {
       <button type="submit" className="review-button">Submit Review</button>
     </form>
   );
-};
+}
 
-const ReviewList = ({ toolId }) => {
+export function ReviewList({ toolId }) {
   const [reviews, setReviews] = useState([]);
 
   useEffect(() => {
-    fetch(`http://localhost:8000/api/reviews?tool=${toolId}`)
+    fetch(`http://localhost:5000/api/reviews?tool=${toolId}`)
       .then((res) => res.json())
       .then((data) => setReviews(data))
       .catch((err) => console.error(err));
@@ -64,6 +76,5 @@ const ReviewList = ({ toolId }) => {
       )}
     </div>
   );
-};
-
-export { ReviewForm, ReviewList };
+}
+export default ReviewForm;

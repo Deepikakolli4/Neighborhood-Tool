@@ -1,15 +1,13 @@
-import { useState, useEffect, useContext } from 'react';
-import { AuthContext } from '../context/AuthContext';
+import { useState, useEffect } from 'react';
 import './reservation.css';
 
 function ReservationDashboard() {
   const [reservations, setReservations] = useState([]);
   const [reminders, setReminders] = useState([]);
-  const { user } = useContext(AuthContext);
 
   useEffect(() => {
     // Fetch reservations
-    fetch('http://localhost:8000/api/reservations', {
+    fetch('http://localhost:5000/api/reservations', {
       headers: {
         Authorization: `Bearer ${localStorage.getItem('token')}`,
       },
@@ -18,7 +16,7 @@ function ReservationDashboard() {
       .then((data) => setReservations(data))
       .catch((err) => console.error(err));
 
-    // Fetch reminders (upcoming reservations within 3 days)
+    // Fetch reminders
     fetch('http://localhost:5000/api/reservations/reminders', {
       headers: {
         Authorization: `Bearer ${localStorage.getItem('token')}`,

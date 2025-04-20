@@ -1,4 +1,6 @@
-import React, { useState } from 'react';
+import { useState, useContext } from 'react';
+import { useNavigate } from 'react-router-dom';
+import { AuthContext } from '../../context/AuthContext';
 import './signup.css';
 
 const Signup = () => {
@@ -8,20 +10,41 @@ const Signup = () => {
     password: '',
     role: 'member',
   });
+  const [error, setError] = useState('');
+  const { login } = useContext(AuthContext);
+  const navigate = useNavigate();
 
   const handleChange = (e) => {
     setFormData({ ...formData, [e.target.name]: e.target.value });
   };
 
-  const handleSignup = (e) => {
+  const handleSignup = async (e) => {
     e.preventDefault();
-    console.log(formData);
-    // Call signup API here
+    try {
+      const res = await fetch('http://localhost:5000/api/auth/register', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify(formData),
+      });
+      if (res.ok) {
+        const { token, user } = await res.json();
+        await login(formData.email, formData.password); // Log in after signup
+        navigate('/dashboard');
+      } else {
+        const { message } = await res.json();
+        setError(message || 'Signup failed');
+      }
+    } catch (err) {
+      setError('Server error');
+    }
   };
 
   return (
     <form className="signup-form" onSubmit={handleSignup}>
       <h2 className="signup-title">Sign Up</h2>
+      {error && <p className="error">{error}</p>}
       <input
         type="text"
         name="name"

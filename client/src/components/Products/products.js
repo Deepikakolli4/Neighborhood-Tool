@@ -1,5 +1,5 @@
 import React from 'react';
-import './ProductSection.css';
+import './products.css';
 
 const features = [
   { title: "Browse Tools", description: "Search and filter tools by category and availability." },

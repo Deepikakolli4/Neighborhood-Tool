@@ -1,5 +1,6 @@
 import { useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
+import ToolCard from '../ToolCard/toolcard';
 import './toolfilter.css';
 
 function ToolList() {
@@ -64,13 +65,9 @@ function ToolList() {
             <p>No tools found.</p>
           ) : (
             tools.map((tool) => (
-              <div key={tool._id} className="tool-card">
-                <h2>{tool.name}</h2>
-                <p>{tool.description}</p>
-                <p><strong>Category:</strong> {tool.category}</p>
-                <p><strong>Available:</strong> {tool.isAvailable ? 'Yes' : 'No'}</p>
-                <Link to={`/tools/${tool._id}`} className="btn">View Details</Link>
-              </div>
+              <Link to={`/tools/${tool._id}`} key={tool._id}>
+                <ToolCard tool={tool} />
+              </Link>
             ))
           )}
         </div>

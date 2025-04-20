@@ -1,5 +1,5 @@
 import React from 'react';
-import ToolCard from './ToolCard';
+import ToolCard from '../ToolCard/toolcard';
 import './toollist.css';
 
 const ToolList = ({ tools }) => {

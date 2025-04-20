@@ -1,6 +1,6 @@
 import { useContext } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
-import { AuthContext } from '../context/AuthContext';
+import { AuthContext } from '../../context/AuthContext';
 import './navbar.css';
 
 function Navbar() {
@@ -18,6 +18,8 @@ function Navbar() {
         <Link to="/" className="navbar-brand">Tool Library</Link>
         <div className="navbar-links">
           <Link to="/tools">Tools</Link>
+          <Link to="/about">About</Link>
+          <Link to="/features">Features</Link>
           {user ? (
             <>
               <Link to="/reservations">Reservations</Link>
