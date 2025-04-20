@@ -1,5 +1,5 @@
 import { useContext } from 'react';
-import { Link, useNavigate } from 'react-router-dom';
+import { Link, NavLink, useNavigate } from 'react-router-dom';
 import { AuthContext } from '../../context/AuthContext';
 import './navbar.css';
 
@@ -15,22 +15,22 @@ function Navbar() {
   return (
     <nav className="navbar">
       <div className="container">
-        <Link to="/" className="navbar-brand">Tool Library</Link>
+        <NavLink to="/" className="navbar-brand">Tool Library</NavLink>
         <div className="navbar-links">
-          <Link to="/tools">Tools</Link>
-          <Link to="/about">About</Link>
-          <Link to="/features">Features</Link>
+          <NavLink to="/tools" activeClassName="active">Tools</NavLink>
+          <NavLink to="/about" activeClassName="active">About</NavLink>
+          <NavLink to="/features" activeClassName="active">Features</NavLink>
           {user ? (
             <>
-              <Link to="/reservations">Reservations</Link>
-              <Link to="/dashboard">Dashboard</Link>
-              {user.role === 'admin' && <Link to="/admin">Admin</Link>}
+              <NavLink to="/reservations" activeClassName="active">Reservations</NavLink>
+              <NavLink to="/dashboard" activeClassName="active">Dashboard</NavLink>
+              {user.role === 'admin' && <NavLink to="/admin" activeClassName="active">Admin</NavLink>}
               <button onClick={handleLogout} className="logout-btn">Logout</button>
             </>
           ) : (
             <>
-              <Link to="/login">Login</Link>
-              <Link to="/signup">Signup</Link>
+              <NavLink to="/login" activeClassName="active">Login</NavLink>
+              <NavLink to="/signup" activeClassName="active">Signup</NavLink>
             </>
           )}
         </div>
