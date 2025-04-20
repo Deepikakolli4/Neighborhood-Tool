@@ -1,0 +1,43 @@
+.damage-report-form {
+    max-width: 600px;
+    margin: 0 auto;
+    padding: 24px;
+    background-color: #f9fafb;
+    border-radius: 8px;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+  }
+  
+  .damage-title {
+    font-size: 24px;
+    font-weight: bold;
+    color: #b91c1c; /* red-700 */
+    margin-bottom: 16px;
+    text-align: center;
+  }
+  
+  .damage-textarea {
+    width: 100%;
+    height: 120px;
+    padding: 12px;
+    font-size: 16px;
+    border: 1px solid #d1d5db;
+    border-radius: 6px;
+    resize: none;
+    margin-bottom: 16px;
+  }
+  
+  .damage-file {
+    display: block;
+    margin-bottom: 16px;
+  }
+  
+  .damage-submit {
+    padding: 10px 20px;
+    background-color: #2563eb; /* blue-600 */
+    color: white;
+    font-size: 16px;
+    border: none;
+    border-radius: 6px;
+    cursor: pointer;
+  }
+  

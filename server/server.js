@@ -9,6 +9,7 @@ const authRoutes = require('./routes/auth');
 const reservationRoutes = require('./routes/reservations');
 const reportRoutes = require('./routes/reports');
 const reviewRoutes = require('./routes/reviews');
+const qrRoutes = require('./routes/qr');
 
 dotenv.config();
 
@@ -32,6 +33,7 @@ app.use('/api/auth', authRoutes);
 app.use('/api/reservations', reservationRoutes);
 app.use('/api/reports', reportRoutes);
 app.use('/api/reviews', reviewRoutes);
+app.use('/api/qr', qrRoutes);
 
 // Error Handling
 app.use((err, req, res, next) => {

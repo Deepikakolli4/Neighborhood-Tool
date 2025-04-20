@@ -1,0 +1,29 @@
+.admin-dashboard {
+    padding: 40px;
+    text-align: center;
+  }
+  
+  .admin-title {
+    font-size: 28px;
+    color: #111827;
+    font-weight: bold;
+    margin-bottom: 24px;
+  }
+  
+  .admin-buttons {
+    display: flex;
+    justify-content: center;
+    flex-wrap: wrap;
+    gap: 16px;
+  }
+  
+  .admin-btn {
+    padding: 12px 20px;
+    background-color: #9333ea; /* violet-600 */
+    color: white;
+    font-size: 16px;
+    border: none;
+    border-radius: 8px;
+    cursor: pointer;
+  }
+  

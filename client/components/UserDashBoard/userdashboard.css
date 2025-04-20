@@ -1,0 +1,33 @@
+.user-dashboard {
+    padding: 40px 0;
+  }
+  
+  .user-dashboard h1, .user-dashboard h2 {
+    font-size: 2rem;
+    margin-bottom: 20px;
+    color: #007bff;
+  }
+  
+  .profile-section, .reservations-section, .reviews-section, .reports-section {
+    margin-bottom: 30px;
+  }
+  
+  .profile-section p, .reservation-card p, .review-card p, .report-card p {
+    margin-bottom: 10px;
+  }
+  
+  .reservation-card, .review-card, .report-card {
+    border: 1px solid #ccc;
+    padding: 20px;
+    border-radius: 4px;
+    background-color: white;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    margin-bottom: 15px;
+  }
+  
+  /* Responsive Design */
+  @media (max-width: 768px) {
+    .user-dashboard h1, .user-dashboard h2 {
+      font-size: 1.8rem;
+    }
+  }

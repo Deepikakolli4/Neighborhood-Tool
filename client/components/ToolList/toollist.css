@@ -1,0 +1,13 @@
+.tool-list {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(240px, 1fr));
+    gap: 20px;
+    padding: 20px;
+  }
+  
+  .tool-empty {
+    text-align: center;
+    color: #6b7280;
+    font-size: 18px;
+  }
+  

@@ -1,15 +1,18 @@
 import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
 import { AuthProvider } from './context/AuthContext';
-import Home from './pages/Home';
-import Login from './pages/Login';
-import Signup from './pages/Signup';
-import ToolList from './pages/ToolList';
-import ToolDetail from './pages/ToolDetail';
-import ReservationDashboard from './pages/ReservationDashboard';
-import AdminDashboard from './pages/AdminDashboard';
-import Navbar from './components/Navbar';
-import PrivateRoute from './components/PrivateRoute';
-import AdminRoute from './components/AdminRoute';
+import Home from './components/Introduction/introduction'; // Corrected path
+import Login from './components/Login/login'; // Corrected path
+import Signup from './components/Sigup/signup'; // Corrected path
+import ToolList from './components/ToolList/toollist'; // Corrected path
+import ToolDetail from './components/ToolDetail/toolDetail'; // Corrected path
+import ReservationDashboard from './components/Reservation/reservation'; // Corrected path
+import UserDashboard from './components/UserDashBoard/userdashboard'; // Corrected path
+import AdminDashboard from './components/Dashboard/dashboard'; // Corrected path
+import Navbar from './components/Navigation/navbar'; // Corrected path
+import Footer from './components/Footer/footer'; // Corrected path
+import PrivateRoute from './components/PrivateRoute'; // Ensure this file exists
+import AdminRoute from './components/AdminRoute'; // Ensure this file exists
+import './App.css';
 
 function App() {
   return (
