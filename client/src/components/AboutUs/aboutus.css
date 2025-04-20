@@ -1,30 +1,130 @@
 .aboutus-container {
-  max-width: 900px;
+  max-width: 1500px;
   margin: 0 auto;
-  padding: 24px;
-  text-align: center;
+  padding: 40px 20px;
+  display: flex;
+  flex-direction: row;
+  gap: 40px;
+  background-color: #f4f4f4;
+}
+
+.aboutus-text-section {
+  flex: 1;
+  text-align: left;
 }
 
 .aboutus-title {
-  font-size: 28px;
+  font-size: 2rem;
   font-weight: bold;
-  color: #007bff;
-  margin-bottom: 16px;
+  color:brown ;
+  margin-bottom: 50px;
 }
 
 .aboutus-text {
-  font-size: 18px;
+  font-size: 1.4rem;
   color: #555;
   line-height: 1.6;
 }
 
+.aboutus-carousel {
+  flex: 1;
+  max-width: 600px;
+}
+
+.carousel {
+  position: relative;
+  overflow: hidden;
+  border-radius: 8px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+}
+
+.carousel-images {
+  display: flex;
+  transition: transform 0.5s ease-in-out;
+}
+
+.carousel-images img {
+  width: 100%;
+  height: 450px;
+  object-fit: cover;
+  flex-shrink: 0;
+}
+
+.carousel-btn {
+  position: absolute;
+  top: 50%;
+  transform: translateY(-50%);
+  background-color: rgba(0, 0, 0, 0.5);
+  color: white;
+  border: none;
+  padding: 10px;
+  cursor: pointer;
+  font-size: 1.5rem;
+  border-radius: 4px;
+}
+
+.carousel-btn.prev {
+  left: 10px;
+}
+
+.carousel-btn.next {
+  right: 10px;
+}
+
+.carousel-btn:hover {
+  background-color: #007bff;
+}
+
+.carousel-dots {
+  position: absolute;
+  bottom: 15px;
+  left: 50%;
+  transform: translateX(-50%);
+  display: flex;
+  gap: 10px;
+}
+
+.dot {
+  width: 12px;
+  height: 12px;
+  background-color: #ccc;
+  border-radius: 50%;
+  border: none;
+  cursor: pointer;
+}
+
+.dot.active {
+  background-color: #007bff;
+}
+
+.dot:hover {
+  background-color: #0056b3;
+}
+
 /* Responsive Design */
 @media (max-width: 768px) {
+  .aboutus-container {
+    flex-direction: column;
+    padding: 20px;
+  }
+
+  .aboutus-text-section {
+    text-align: center;
+  }
+
   .aboutus-title {
-    font-size: 24px;
+    font-size: 1.8rem;
   }
 
   .aboutus-text {
-    font-size: 16px;
+    font-size: 1rem;
+  }
+
+  .aboutus-carousel {
+    max-width: 100%;
+  }
+
+  .carousel-images img {
+    height: 200px;
   }
 }

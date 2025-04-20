@@ -1,8 +1,8 @@
 import { useState, useEffect, useContext } from 'react';
 import { useParams, useNavigate } from 'react-router-dom';
 import { AuthContext } from '../../context/AuthContext';
-import   ReviewForm  from '../Review/review';
-import  DamageReport from '../DamageReport/damage';
+import ReviewForm from '../Review/review'; // Use default export
+import DamageReport from '../DamageReport/damage'; // Use default export
 import './toolDetail.css';
 
 function ToolDetail() {
@@ -85,9 +85,7 @@ function ToolDetail() {
             <button type="submit" className="btn">Reserve</button>
           </form>
         )}
-        <ReviewList toolId={id} />
         {user && <ReviewForm toolId={id} />}
-        <DamageReportList toolId={id} />
         {user && <DamageReport toolId={id} />}
       </div>
     </div>

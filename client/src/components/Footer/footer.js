@@ -20,12 +20,9 @@ function Footer() {
           </div>
           <div className="footer-section">
             <h3>Contact</h3>
-            <p>Email: info@toollibrary.com</p>
-            <p>Phone: (123) 456-7890</p>
+            <p>Email: info@toollibrary.com </p>
+            {/* <p>Phone: (123) 456-7890</p> */}
           </div>
-        </div>
-        <div className="footer-bottom">
-          <p>&copy; {new Date().getFullYear()} Neighborhood Tool Library. All rights reserved.</p>
         </div>
       </div>
     </footer>
