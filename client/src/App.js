@@ -1,17 +1,18 @@
 import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
 import { AuthProvider } from './context/AuthContext';
-import Login from './components/Login'; 
-import Signup from './components/Signup'; 
-import ToolList from './components/ToolList'; 
-import ToolDetail from './components/ToolDetail'; 
-import ReservationDashboard from './components/ReservationDashboard'; 
-import UserDashboard from './components/UserDashboard'; 
-import AdminDashboard from './components/AdminDashboard'; 
-import Navbar from './components/Navbar';
-import Footer from './components/Footer';
-import PrivateRoute from './components/PrivateRoute';
-import AdminRoute from './components/AdminRoute';
-import './App.css';
+import Login from '../components/Login'; 
+import Signup from '../components/Signup'; 
+import ToolList from '../components/ToolList'; 
+import ToolCard from '../components/ToolCard'; 
+import ReservationDashboard from '../components/ReservationDashboard'; 
+import UserDashboard from '../components/UserDashboard'; 
+import AdminDashboard from '../components/Dashboard'; 
+import Navbar from '../components/Navbar';
+import Footer from '../components/Footer';
+import AboutUs from '../components/AboutUs';
+import DaamageReport from '../components/DamageReport';
+import ToolDetail from '../components/ToolDetail';
+import Introduction from '../components/Introduction/introduction'; 
 
 function App() {
   return (
@@ -21,7 +22,6 @@ function App() {
           <Navbar />
           <main>
             <Routes>
-              <Route path="/" element={<Home />} />
               <Route path="/login" element={<Login />} />
               <Route path="/signup" element={<Signup />} />
               <Route path="/tools" element={<ToolList />} />
