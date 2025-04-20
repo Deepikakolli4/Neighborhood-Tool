@@ -2,7 +2,7 @@ import React, { useState, useEffect } from 'react';
 import ReviewList from '../Review/review';
 import DamageReportList from '../DamageReport/damage';
 import ReservationList from '../Reservation/reservation';
-import './toolDetail.css';
+// import './toolDetail.css';
 
 const ToolDetail = ({ toolId }) => {
   const [tool, setTool] = useState(null);

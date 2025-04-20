@@ -1,13 +1,11 @@
-import { useState, useEffect, useContext } from 'react';
-import { AuthContext } from '../context/AuthContext';
+import { useState, useEffect } from 'react';
 import './userdashboard.css';
 
-function UserDashboard() {
+function UserDashboard(){
   const [profile, setProfile] = useState(null);
   const [reservations, setReservations] = useState([]);
   const [reviews, setReviews] = useState([]);
   const [reports, setReports] = useState([]);
-  const { user } = useContext(AuthContext);
 
   useEffect(() => {
     // Fetch user profile
