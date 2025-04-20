@@ -1,61 +1,48 @@
 import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
 import { AuthProvider } from './context/AuthContext';
-import Login from '../components/Login/login';
-import Signup from '../components/Signup/signup';
-import ToolList from '../components/ToolList/toollist';
-import ToolDetail from '../components/ToolDetail/toolDetail';
-import ReservationDashboard from '../components/Reservation/reservation';
-import UserDashboard from '../components/UserDashboard/userdashboard';
-import AdminDashboard from '../components/Dashboard/dashboard';
-import Navbar from '../components/Navbar/navbar';
-import Footer from '../components/Footer/footer';
-import AboutUs from '../components/AboutUs/aboutus';
-import DamageReport from '../components/DamageReport/damage';
-import Introduction from '../components/Introduction/introduction';
-import PrivateRoute from './components/PrivateRoute';
-import AdminRoute from './components/AdminRoute'; // Updated path
-import './styles.css';
+import Home from '../components/Introduction/introduction'; // Corrected path
+import Login from './components/'; // Corrected path
+import Signup from '../components/Sigup/signup'; // Corrected path
+import ToolList from '../components/ToolList/toollist'; // Corrected path
+import ToolDetail from '../components/ToolDetail/toolDetail'; // Corrected path
+import ReservationDashboard from '../components/Reservation/reservation'; // Corrected path
+import UserDashboard from '../components/UserDashBoard/userdashboard'; // Corrected path
+import AdminDashboard from '../components/Dashboard/dashboard'; // Corrected path
+import Navbar from '../components/Navigation/navbar'; // Corrected path
+import Footer from '../components/Footer/footer'; // Corrected path
+import PrivateRoute from './components/PrivateRoute'; // Ensure this file exists
+import AdminRoute from './components/AdminRoute'; // Ensure this file exists
+import './App.css';
 
 function App() {
   return (
     <AuthProvider>
       <Router>
-        <div className="app">
+        <div className="min-h-screen bg-gray-100">
           <Navbar />
-          <main>
-            <Routes>
-              <Route path="/" element={<Introduction />} />
-              <Route path="/login" element={<Login />} />
-              <Route path="/signup" element={<Signup />} />
-              <Route path="/tools" element={<ToolList />} />
-              <Route path="/tools/:id" element={<ToolDetail />} />
-              <Route
-                path="/reservations"
-                element={
-                  <PrivateRoute>
-                    <ReservationDashboard />
-                  </PrivateRoute>
-                }
-              />
-              <Route
-                path="/dashboard"
-                element={
-                  <PrivateRoute>
-                    <UserDashboard />
-                  </PrivateRoute>
-                }
-              />
-              <Route
-                path="/admin"
-                element={
-                  <AdminRoute>
-                    <AdminDashboard />
-                  </AdminRoute>
-                }
-              />
-            </Routes>
-          </main>
-          <Footer />
+          <Routes>
+            <Route path="/" element={<Home />} />
+            <Route path="/login" element={<Login />} />
+            <Route path="/signup" element={<Signup />} />
+            <Route path="/tools" element={<ToolList />} />
+            <Route path="/tools/:id" element={<ToolDetail />} />
+            <Route
+              path="/reservations"
+              element={
+                <PrivateRoute>
+                  <ReservationDashboard />
+                </PrivateRoute>
+              }
+            />
+            <Route
+              path="/admin"
+              element={
+                <AdminRoute>
+                  <AdminDashboard />
+                </AdminRoute>
+              }
+            />
+          </Routes>
         </div>
       </Router>
     </AuthProvider>
