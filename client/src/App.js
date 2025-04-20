@@ -1,18 +1,18 @@
 import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
 import { AuthProvider } from './context/AuthContext';
-import Login from '../components/Login'; 
-import Signup from '../components/Signup'; 
-import ToolList from '../components/ToolList'; 
-import ToolCard from '../components/ToolCard'; 
-import ReservationDashboard from '../components/ReservationDashboard'; 
-import UserDashboard from '../components/UserDashboard'; 
-import AdminDashboard from '../components/Dashboard'; 
-import Navbar from '../components/Navbar';
-import Footer from '../components/Footer';
-import AboutUs from '../components/AboutUs';
-import DaamageReport from '../components/DamageReport';
-import ToolDetail from '../components/ToolDetail';
-import Introduction from '../components/Introduction/introduction'; 
+import Login from './components/Login/login';
+import Signup from './components/Signup/signup';
+import ToolList from './components/ToolList/toollist';
+import ToolDetail from './components/ToolDetail/toolDetail';
+import ReservationDashboard from './components/Reservation/reservation';
+import UserDashboard from './components/UserDashboard/userdashboard';
+import AdminDashboard from './components/Dashboard/dashboard';
+import Navbar from './components/Navbar/navbar';
+import Footer from './components/Footer/footer';
+import AboutUs from './components/AboutUs/aboutus';
+import DamageReport from './components/DamageReport/damage';
+import Introduction from './components/Introduction/introduction';
+import './styles.css';
 
 function App() {
   return (
@@ -22,6 +22,7 @@ function App() {
           <Navbar />
           <main>
             <Routes>
+              <Route path="/" element={<Introduction />} />
               <Route path="/login" element={<Login />} />
               <Route path="/signup" element={<Signup />} />
               <Route path="/tools" element={<ToolList />} />
