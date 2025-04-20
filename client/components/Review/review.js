@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import './review.css';
 
 const ReviewForm = () => {
@@ -38,4 +38,32 @@ const ReviewForm = () => {
   );
 };
 
-export default ReviewForm;
+const ReviewList = ({ toolId }) => {
+  const [reviews, setReviews] = useState([]);
+
+  useEffect(() => {
+    fetch(`http://localhost:8000/api/reviews?tool=${toolId}`)
+      .then((res) => res.json())
+      .then((data) => setReviews(data))
+      .catch((err) => console.error(err));
+  }, [toolId]);
+
+  return (
+    <div className="review-list">
+      <h2>Reviews</h2>
+      {reviews.length === 0 ? (
+        <p>No reviews yet.</p>
+      ) : (
+        reviews.map((review) => (
+          <div key={review._id} className="review-card">
+            <p><strong>Rating:</strong> {review.rating}/5</p>
+            <p><strong>Comment:</strong> {review.comment}</p>
+            <p><strong>User:</strong> {review.user.name}</p>
+          </div>
+        ))
+      )}
+    </div>
+  );
+};
+
+export { ReviewForm, ReviewList };

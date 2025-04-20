@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import './damage.css';
 
 const DamageReport = () => {
@@ -31,4 +31,31 @@ const DamageReport = () => {
   );
 };
 
-export default DamageReport;
+const DamageReportList = ({ toolId }) => {
+  const [reports, setReports] = useState([]);
+
+  useEffect(() => {
+    fetch(`http://localhost:8000/api/reports?tool=${toolId}`)
+      .then((res) => res.json())
+      .then((data) => setReports(data))
+      .catch((err) => console.error(err));
+  }, [toolId]);
+
+  return (
+    <div className="damage-report-list">
+      <h2>Damage Reports</h2>
+      {reports.length === 0 ? (
+        <p>No damage reports yet.</p>
+      ) : (
+        reports.map((report) => (
+          <div key={report._id} className="damage-report-card">
+            <p><strong>Description:</strong> {report.description}</p>
+            <p><strong>Reported By:</strong> {report.user.name}</p>
+          </div>
+        ))
+      )}
+    </div>
+  );
+};
+
+export { DamageReport, DamageReportList };
