@@ -15,7 +15,7 @@ const ToolList = () => {
   useEffect(() => {
     const fetchTools = async () => {
       try {
-        const res = await fetch('http://localhost:8000/api/tools');
+        const res = await fetch('https://neighbour-backend-2.onrender.com/api/tools');
         if (!res.ok) throw new Error('Failed to fetch tools');
         const data = await res.json();
         setTools(data);

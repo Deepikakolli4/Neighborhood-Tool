@@ -23,7 +23,7 @@ export const AuthProvider = ({ children }) => {
           }
 
           // Token is valid, fetch user profile
-          const res = await fetch('http://localhost:8000/api/auth/profile', {
+          const res = await fetch('https://neighbour-backend-2.onrender.com/api/auth/profile', {
             headers: {
               Authorization: `Bearer ${token}`,
             },
@@ -54,7 +54,7 @@ export const AuthProvider = ({ children }) => {
 
   const login = async (email, password, navigate) => {
     try {
-      const res = await fetch('http://localhost:8000/api/auth/login', {
+      const res = await fetch('https://neighbour-backend-2.onrender.com/api/auth/login', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',

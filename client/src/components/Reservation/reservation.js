@@ -12,7 +12,7 @@ function Reservation({ onClose }) {
         const token = localStorage.getItem('token');
         if (!token) throw new Error('User not authenticated.');
 
-        const res = await fetch('http://localhost:8000/api/reservations', {
+        const res = await fetch('https://neighbour-backend-2.onrender.com/api/reservations', {
           headers: {
             Authorization: `Bearer ${token}`,
             'Content-Type': 'application/json',

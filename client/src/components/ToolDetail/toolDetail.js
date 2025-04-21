@@ -36,9 +36,9 @@ function ToolDetail() {
       setIsLoading(true);
       try {
         const [toolRes, reviewsRes, datesRes] = await Promise.all([
-          fetch(`http://localhost:8000/api/tools/${id}`),
-          fetch(`http://localhost:8000/api/reviews/tool/${id}`),
-          fetch(`http://localhost:8000/api/reservations/unavailable/${id}`),
+          fetch(`https://neighbour-backend-2.onrender.com/api/tools/${id}`),
+          fetch(`https://neighbour-backend-2.onrender.com/api/reviews/tool/${id}`),
+          fetch(`https://neighbour-backend-2.onrender.com/api/reservations/unavailable/${id}`),
         ]);
 
         if (!toolRes.ok) throw new Error('Failed to fetch tool details');
@@ -86,7 +86,7 @@ function ToolDetail() {
     setSelectedDates(dates);
 
     try {
-      const res = await fetch('http://localhost:8000/api/reservations', {
+      const res = await fetch('https://neighbour-backend-2.onrender.com/api/reservations', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
@@ -110,7 +110,7 @@ function ToolDetail() {
       setSelectedDates([new Date(), new Date()]);
 
       // Refresh unavailable dates
-      const newDatesRes = await fetch(`http://localhost:8000/api/reservations/unavailable/${id}`);
+      const newDatesRes = await fetch(`https://neighbour-backend-2.onrender.com/api/reservations/unavailable/${id}`);
       if (newDatesRes.ok) {
         const newDates = await newDatesRes.json();
         setUnavailableDates(newDates);
@@ -130,7 +130,7 @@ function ToolDetail() {
     }
 
     try {
-      const res = await fetch('http://localhost:8000/api/reviews', {
+      const res = await fetch('https://neighbour-backend-2.onrender.com/api/reviews', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
