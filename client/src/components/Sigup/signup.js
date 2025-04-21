@@ -32,7 +32,7 @@ const Signup = () => {
         const { token, user } = await res.json();
         try {
           console.log('Signup successful, navigating to login page'); // Log successful signup
-          navigate('/login'); // Redirect to the login page
+          navigate('/login');
         } catch (loginError) {
           console.error('Navigation error:', loginError); // Log any errors during navigation
           setError('Signup successful, but navigation failed. Please try logging in.');
@@ -40,7 +40,7 @@ const Signup = () => {
       } else {
         const errorResponse = await res.json();
         console.error('Signup error response:', errorResponse); // Log the error response
-        setError(errorResponse.message || 'Signup failed'); // Display the specific error message
+        setError(errorResponse.message || 'Signup failed'); 
       }
     } catch (err) {
       console.error('Signup server error:', err); // Log the error object
