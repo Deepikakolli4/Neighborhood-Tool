@@ -1,6 +1,6 @@
 import { BrowserRouter as Router, Routes, Route, Navigate } from 'react-router-dom';
 import { useContext } from 'react';
-import { AuthContext, AuthProvider } from './context/AuthContext'; // Ensure correct import
+import { AuthContext, AuthProvider } from './context/AuthContext'; // Correct import
 import AboutUs from './components/AboutUs/aboutus';
 import AdminDashboard from './components/Dashboard/dashboard';
 import Footer from './components/Footer/footer';
@@ -38,8 +38,8 @@ function App() {
               <Route path="/login" element={<Login />} />
               <Route path="/signup" element={<Signup />} />
               <Route path="/tools" element={<ToolList />} />
-              <Route path="/tools/:id" element={<ToolDetail />} /> {/* Add this route */}
-              <Route path="/welcome" element={<Welcome />} /> {/* Add this route */}
+              <Route path="/tools/:id" element={<ToolDetail />} />
+              <Route path="/welcome" element={<Welcome />} />
               <Route
                 path="/reservations"
                 element={
@@ -50,7 +50,7 @@ function App() {
               />
               <Route
                 path="/dashboard"
-                element={user ? <UserDashboard /> : <Navigate to="/login" />}
+                element={<UserDashboard />}
               />
               <Route
                 path="/admin"

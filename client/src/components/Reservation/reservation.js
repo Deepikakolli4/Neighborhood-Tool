@@ -1,73 +1,62 @@
-import { useState, useEffect } from 'react';
+import React, { useEffect, useState } from 'react';
 import './reservation.css';
 
-function ReservationDashboard() {
+function Reservation({ onClose }) {
   const [reservations, setReservations] = useState([]);
-  const [reminders, setReminders] = useState([]);
+  const [loading, setLoading] = useState(true);
+  const [error, setError] = useState('');
 
   useEffect(() => {
-    // Fetch reservations
-    fetch('http://localhost:5000/api/reservations', {
-      headers: {
-        Authorization: `Bearer ${localStorage.getItem('token')}`,
-      },
-    })
-      .then((res) => res.json())
-      .then((data) => setReservations(data))
-      .catch((err) => console.error(err));
+    const fetchReservations = async () => {
+      try {
+        const token = localStorage.getItem('token');
+        if (!token) throw new Error('User not authenticated.');
 
-    // Fetch reminders
-    fetch('http://localhost:5000/api/reservations/reminders', {
-      headers: {
-        Authorization: `Bearer ${localStorage.getItem('token')}`,
-      },
-    })
-      .then((res) => res.json())
-      .then((data) => setReminders(data))
-      .catch((err) => console.error(err));
+        const res = await fetch('http://localhost:8000/api/reservations', {
+          headers: {
+            Authorization: `Bearer ${token}`,
+            'Content-Type': 'application/json',
+          },
+        });
+
+        if (!res.ok) {
+          const errorData = await res.json();
+          throw new Error(errorData.message || 'Failed to fetch reservations');
+        }
+
+        const data = await res.json();
+        setReservations(data);
+      } catch (err) {
+        setError(err.message);
+      } finally {
+        setLoading(false);
+      }
+    };
+
+    fetchReservations();
   }, []);
 
   return (
-    <div className="reservation-dashboard">
-      <div className="container">
-        <h1>Your Reservations</h1>
-        <div className="reservation-list">
-          {reservations.length === 0 ? (
-            <p>No reservations found.</p>
-          ) : (
-            reservations.map((reservation) => (
-              <div key={reservation._id} className="reservation-card">
-                <h2>{reservation.tool.name}</h2>
-                <p><strong>Start Date:</strong> {new Date(reservation.startDate).toLocaleDateString()}</p>
-                <p><strong>End Date:</strong> {new Date(reservation.endDate).toLocaleDateString()}</p>
-                <p><strong>Status:</strong> {reservation.status}</p>
-                <div className="qr-code">
-                  <img
-                    src={`http://localhost:5000/api/qr/reservation/${reservation._id}`}
-                    alt="Reservation QR Code"
-                  />
-                  <p>Scan to view reservation details</p>
-                </div>
-              </div>
-            ))
-          )}
-        </div>
-        <div className="reminders">
-          <h2>Upcoming Reminders</h2>
-          {reminders.length === 0 ? (
-            <p>No upcoming reservations.</p>
-          ) : (
-            reminders.map((reminder) => (
-              <div key={reminder._id} className="reminder-card">
-                <p><strong>Tool:</strong> {reminder.tool.name}</p>
-                <p><strong>Start Date:</strong> {new Date(reminder.startDate).toLocaleDateString()}</p>
-              </div>
-            ))
-          )}
-        </div>
-      </div>
+    <div className="reservation-container">
+      <h3>Your Reservations</h3>
+
+      {loading && <p>Loading reservations...</p>}
+      {error && <p className="error">{error}</p>}
+      {!loading && !error && reservations.length === 0 && <p>No reservations found.</p>}
+
+      <ul className="reservation-list">
+        {reservations.map((reservation) => (
+          <li key={reservation._id} className="reservation-item">
+            <p><strong>Tool:</strong> {reservation.tool?.name || 'Unknown'}</p>
+            <p><strong>From:</strong> {new Date(reservation.startDate).toLocaleDateString()}</p>
+            <p><strong>To:</strong> {new Date(reservation.endDate).toLocaleDateString()}</p>
+          </li>
+        ))}
+      </ul>
+
+      {/* <button className="close-reservation" onClick={onClose}>Close</button> */}
     </div>
   );
 }
 
-export default ReservationDashboard;
+export default Reservation;

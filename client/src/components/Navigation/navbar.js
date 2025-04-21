@@ -1,6 +1,6 @@
 import { useContext } from 'react';
 import { NavLink, useNavigate } from 'react-router-dom';
-import { AuthContext } from '../../context/AuthContext';
+import { AuthContext } from '../../context/AuthContext'; // Correct import
 import './navbar.css';
 
 function Navbar() {
@@ -25,10 +25,10 @@ function Navbar() {
           {user ? (
             <>
               <NavLink to="/reservations" className="navbar-link" activeClassName="active">Reservations</NavLink>
-              <NavLink to="/dashboard" className="navbar-link" activeClassName="active">Dashboard</NavLink>
+              {/* <NavLink to="/dashboard" className="navbar-link" activeClassName="active">Dashboard</NavLink>
               {user.role === 'admin' && (
                 <NavLink to="/admin" className="navbar-link" activeClassName="active">Admin</NavLink>
-              )}
+              )} */}
               <span className="navbar-username">{user.username}</span>
               <button onClick={handleLogout} className="logout-btn">Logout</button>
             </>

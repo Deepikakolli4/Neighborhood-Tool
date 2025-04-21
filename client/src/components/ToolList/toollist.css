@@ -25,7 +25,7 @@
 }
 
 .tool-image {
-  width: 100%;
+  width: 90%;
   height: 180px;
   object-fit: cover;
   border-radius: 8px;
@@ -57,4 +57,27 @@
 
 .pagination span {
   font-weight: 500;
+}
+.filters {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 15px;
+  margin-bottom: 25px;
+  justify-content: center;
+}
+
+.filters input[type="text"],
+.filters select {
+  padding: 10px 14px;
+  border: 1px solid #ccc;
+  border-radius: 6px;
+  font-size: 14px;
+  outline: none;
+  min-width: 180px;
+}
+
+.filters input[type="text"]:focus,
+.filters select:focus {
+  border-color: #3f2b96;
+  box-shadow: 0 0 5px rgba(63, 43, 150, 0.4);
 }

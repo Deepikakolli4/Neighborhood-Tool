@@ -1,80 +1,91 @@
-const bcrypt = require('bcryptjs');
+const express = require('express');
+const authService = require('../services/authService');
+const auth = require('../middleware/auth');
+const User = require('../models/User'); // Ensure User model is correctly imported
+const bcrypt = require('bcrypt');
 const jwt = require('jsonwebtoken');
-const User = require('../models/User');
 
-// Signup Service
-const signupService = async (username, email, password, role) => {
+const router = express.Router();
+
+// Signup
+router.post('/signup', async (req, res) => {
   try {
-    console.log('Signup service called with:', { username, email, role }); // Log input parameters
+    console.log('Signup request body:', req.body); // Log the request body for debugging
+
+    const { username, email, password, role } = req.body;
 
     // Validate input
     if (!username || !email || !password || !role) {
-      throw new Error('All fields are required');
+      return res.status(400).json({ message: 'All fields are required' });
     }
 
-    // Check if the email already exists
-    const existingUser = await User.findOne({ email });
-    if (existingUser) {
-      throw new Error('Email already in use');
+    // Ensure role is valid
+    const validRoles = ['member', 'admin'];
+    if (!validRoles.includes(role)) {
+      return res.status(400).json({ message: `Invalid role. Valid roles are: ${validRoles.join(', ')}` });
     }
 
-    // Hash the password
-    const hashedPassword = await bcrypt.hash(password, 10);
+    // Call the signup service
+    const response = await authService.signupService(username, email, password, role);
 
-    // Create the user
-    const user = new User({
-      username,
-      email,
-      password: hashedPassword,
-      role,
-    });
-
-    console.log('Saving user to database:', user); // Log the user object before saving
-    await user.save();
-
-    // Ensure JWT_SECRET is defined
-    if (!process.env.JWT_SECRET) {
-      throw new Error('JWT_SECRET is not defined in environment variables');
-    }
-
-    // Generate a JWT token
-    const token = jwt.sign({ id: user._id, role: user.role }, process.env.JWT_SECRET, {
-      expiresIn: '1d',
-    });
-
-    console.log('Signup successful, returning response'); // Log success
-    return { token, user: { id: user._id, username: user.username, email: user.email, role: user.role } };
-  } catch (error) {
-    console.error('Signup Service Error:', error.message); // Log the error message
-    throw new Error(error.message);
+    res.status(201).json(response);
+  } catch (err) {
+    console.error('Signup error:', err); // Log the full error object for debugging
+    res.status(500).json({ message: 'Internal server error', error: err.message });
   }
-};
+});
 
-// Login Service
-const loginService = async (email, password) => {
+// Login
+router.post('/login', async (req, res) => {
+  const { email, password } = req.body;
   try {
-    // Check if the user exists
     const user = await User.findOne({ email });
     if (!user) {
-      throw new Error('Invalid email or password');
+      return res.status(404).json({ message: 'Invalid email or password' });
     }
 
-    // Compare passwords
     const isPasswordValid = await bcrypt.compare(password, user.password);
     if (!isPasswordValid) {
-      throw new Error('Invalid email or password');
+      return res.status(400).json({ message: 'Invalid email or password' });
     }
 
-    // Generate a JWT token
     const token = jwt.sign({ id: user._id, role: user.role }, process.env.JWT_SECRET, {
       expiresIn: '1d',
     });
 
-    return { token, user: { id: user._id, username: user.username, email: user.email, role: user.role } };
-  } catch (error) {
-    console.error('Login Service Error:', error.message);
-    throw new Error(error.message);
+    res.json({
+      token,
+      user: {
+        id: user._id,
+        username: user.username,
+        email: user.email,
+        role: user.role,
+      },
+    });
+  } catch (err) {
+    console.error('Login error:', err);
+    res.status(500).json({ message: 'Internal server error' });
   }
-};
+});
 
-module.exports = { signupService, loginService };
+// Get user profile
+router.get('/profile', auth, async (req, res) => {
+  try {
+    const user = await User.findById(req.user.id);
+    if (!user) {
+      return res.status(404).json({ message: 'User not found' });
+    }
+
+    res.json({
+      id: user._id,
+      username: user.username,
+      email: user.email,
+      role: user.role,
+    });
+  } catch (err) {
+    console.error('Error fetching user profile:', err);
+    res.status(500).json({ message: 'Failed to fetch user profile' });
+  }
+});
+
+module.exports = router;

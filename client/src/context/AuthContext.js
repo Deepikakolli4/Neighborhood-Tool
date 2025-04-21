@@ -1,5 +1,5 @@
 import { createContext, useState, useEffect } from 'react';
-import { jwtDecode } from 'jwt-decode'; // Use named export
+import { jwtDecode } from 'jwt-decode'; // Make sure this is a named import
 
 export const AuthContext = createContext();
 
@@ -12,39 +12,41 @@ export const AuthProvider = ({ children }) => {
       const token = localStorage.getItem('token');
       if (token) {
         try {
-          // Decode token to check expiration
           const decoded = jwtDecode(token);
           const currentTime = Date.now() / 1000;
+
           if (decoded.exp < currentTime) {
-            // Token expired
+            // Token has expired
             logout();
             setLoading(false);
             return;
           }
 
-          // Fetch user data from backend to validate token
+          // Token is valid, fetch user profile
           const res = await fetch('http://localhost:8000/api/auth/profile', {
             headers: {
               Authorization: `Bearer ${token}`,
             },
           });
+
           if (res.ok) {
             const userData = await res.json();
             setUser({
               id: userData.id,
-              username: userData.username, // Ensure username is set
+              username: userData.username,
               email: userData.email,
-              role: userData.role, // Ensure role is set
+              role: userData.role,
             });
           } else {
             logout(); // Invalid token
           }
         } catch (err) {
-          console.error('Auth initialization error:', err);
-          logout();
+          console.error('Error during auth initialization:', err);
+          logout(); // Malformed token or fetch error
         }
       }
-      setLoading(false); // Ensure loading is set to false
+
+      setLoading(false); // Always stop loading at the end
     };
 
     initializeAuth();
@@ -52,35 +54,32 @@ export const AuthProvider = ({ children }) => {
 
   const login = async (email, password, navigate) => {
     try {
-      const res = await fetch('http://localhost:8000/api/auth/login', { // Backend login endpoint
+      const res = await fetch('http://localhost:8000/api/auth/login', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
         },
-        body: JSON.stringify({ email, password }), // Send email and password to backend
+        body: JSON.stringify({ email, password }),
       });
 
       if (!res.ok) {
-        const errorResponse = await res.json();
-        throw new Error(errorResponse.message || 'Login failed');
+        const errorData = await res.json();
+        throw new Error(errorData.message || 'Login failed');
       }
 
       const data = await res.json();
-      // Store the token in localStorage
       localStorage.setItem('token', data.token);
 
-      // Update the user state
       setUser({
         id: data.user.id,
-        username: data.user.username, 
+        username: data.user.username,
         email: data.user.email,
         role: data.user.role,
       });
 
-      // Redirect to the Introduction page
-      navigate('/');
+      navigate('/'); // Navigate after successful login
     } catch (err) {
-      console.error('Login error:', err); // Log the error for debugging
+      console.error('Login error:', err.message);
       throw err;
     }
   };

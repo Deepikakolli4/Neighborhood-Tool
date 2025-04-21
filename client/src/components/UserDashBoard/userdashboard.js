@@ -1,7 +1,7 @@
 import { useState, useEffect } from 'react';
 import './userdashboard.css';
 
-function UserDashboard(){
+function UserDashboard() {
   const [profile, setProfile] = useState(null);
   const [reservations, setReservations] = useState([]);
   const [reviews, setReviews] = useState([]);
@@ -16,7 +16,7 @@ function UserDashboard(){
     })
       .then((res) => res.json())
       .then((data) => setProfile(data))
-      .catch((err) => console.error(err));
+      .catch((err) => console.error('Error fetching profile:', err));
 
     // Fetch recent reservations
     fetch('http://localhost:5000/api/reservations', {
@@ -26,7 +26,7 @@ function UserDashboard(){
     })
       .then((res) => res.json())
       .then((data) => setReservations(data.slice(0, 3)))
-      .catch((err) => console.error(err));
+      .catch((err) => console.error('Error fetching reservations:', err));
 
     // Fetch recent reviews
     fetch('http://localhost:5000/api/reviews', {
@@ -36,7 +36,7 @@ function UserDashboard(){
     })
       .then((res) => res.json())
       .then((data) => setReviews(data.slice(0, 3)))
-      .catch((err) => console.error(err));
+      .catch((err) => console.error('Error fetching reviews:', err));
 
     // Fetch recent damage reports
     fetch('http://localhost:5000/api/reports', {
@@ -46,19 +46,20 @@ function UserDashboard(){
     })
       .then((res) => res.json())
       .then((data) => setReports(data.slice(0, 3)))
-      .catch((err) => console.error(err));
+      .catch((err) => console.error('Error fetching reports:', err));
   }, []);
 
+  // If profile is not loaded, show loading
   if (!profile) return <div>Loading...</div>;
 
   return (
     <div className="user-dashboard">
       <div className="container">
-        <h1>Welcome, {profile.name}</h1>
+        <h1>Welcome, {profile?.name}</h1> {/* Using optional chaining here */}
         <div className="profile-section">
           <h2>Profile</h2>
-          <p><strong>Email:</strong> {profile.email}</p>
-          <p><strong>Role:</strong> {profile.role}</p>
+          <p><strong>Email:</strong> {profile?.email}</p> {/* Using optional chaining */}
+          <p><strong>Role:</strong> {profile?.role}</p> {/* Using optional chaining */}
         </div>
         <div className="reservations-section">
           <h2>Recent Reservations</h2>

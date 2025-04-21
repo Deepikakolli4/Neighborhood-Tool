@@ -3,19 +3,23 @@ const mongoose = require('mongoose');
 const toolSchema = new mongoose.Schema({
   name: { 
     type: String,
-     required: true 
-    },
+    required: true 
+  },
   description: {
-     type: String,
-      required: true 
-    },
+    type: String,
+    required: true 
+  },
   category: { 
     type: String,
-     required: true
-     },
+    required: true 
+  },
   imageUrl: {
-     type: String
-     },
+    type: String
+  },
+  available: {
+    type: Boolean,
+    default: true // you can set default as needed
+  }
 }, 
 { 
   timestamps: true 
