@@ -34,7 +34,9 @@ app.use('/api/reservations', reservationRoutes);
 app.use('/api/reports', reportRoutes);
 app.use('/api/reviews', reviewRoutes);
 app.use('/api/qr', qrRoutes);
-
+app.get('/', (req, res) => {
+  console.log("welcome");
+});
 // Error Handling
 app.use((err, req, res, next) => {
   console.error(err.stack);
