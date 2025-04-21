@@ -13,8 +13,7 @@ const Login = () => {
   const handleLogin = async (e) => {
     e.preventDefault();
     try {
-      await login(email, password);
-      navigate('/dashboard');
+      await login(email, password, navigate); // Pass navigate to login
     } catch (err) {
       setError(err.message);
     }

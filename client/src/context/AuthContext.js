@@ -23,7 +23,7 @@ export const AuthProvider = ({ children }) => {
           }
 
           // Fetch user data from backend to validate token
-          const res = await fetch('http://localhost:5000/api/auth/profile', {
+          const res = await fetch('http://localhost:8000/api/auth/profile', {
             headers: {
               Authorization: `Bearer ${token}`,
             },
@@ -31,10 +31,10 @@ export const AuthProvider = ({ children }) => {
           if (res.ok) {
             const userData = await res.json();
             setUser({
-              id: userData._id,
-              name: userData.name,
+              id: userData.id,
+              username: userData.username, // Ensure username is set
               email: userData.email,
-              role: userData.role, // Member or Admin
+              role: userData.role, // Ensure role is set
             });
           } else {
             logout(); // Invalid token
@@ -50,7 +50,7 @@ export const AuthProvider = ({ children }) => {
     initializeAuth();
   }, []);
 
-  const login = async (email, password) => {
+  const login = async (email, password, navigate) => {
     try {
       const res = await fetch('http://localhost:8000/api/auth/login', { // Backend login endpoint
         method: 'POST',
@@ -72,10 +72,13 @@ export const AuthProvider = ({ children }) => {
       // Update the user state
       setUser({
         id: data.user.id,
-        name: data.user.username,
+        username: data.user.username, 
         email: data.user.email,
         role: data.user.role,
       });
+
+      // Redirect to the Introduction page
+      navigate('/');
     } catch (err) {
       console.error('Login error:', err); // Log the error for debugging
       throw err;

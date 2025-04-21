@@ -4,13 +4,15 @@ import { AuthContext } from '../../context/AuthContext';
 import './navbar.css';
 
 function Navbar() {
-  const { user, logout } = useContext(AuthContext);
+  const { user, logout, loading } = useContext(AuthContext);
   const navigate = useNavigate();
 
   const handleLogout = () => {
     logout();
     navigate('/login');
   };
+
+  if (loading) return null; // or show a loading spinner
 
   return (
     <nav className="navbar">
@@ -27,6 +29,7 @@ function Navbar() {
               {user.role === 'admin' && (
                 <NavLink to="/admin" className="navbar-link" activeClassName="active">Admin</NavLink>
               )}
+              <span className="navbar-username">{user.username}</span>
               <button onClick={handleLogout} className="logout-btn">Logout</button>
             </>
           ) : (

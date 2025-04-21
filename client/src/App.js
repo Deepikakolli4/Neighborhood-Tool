@@ -15,6 +15,7 @@ import ToolList from './components/ToolList/toollist';
 import UserDashboard from './components/UserDashBoard/userdashboard';
 import AdminRoute from './components/AdminRoute';
 import PrivateRoute from './components/PrivateRoute';
+import Welcome from './components/Welcome/welcome'; // Import the Welcome component
 import './App.css';
 
 function App() {
@@ -38,6 +39,7 @@ function App() {
               <Route path="/signup" element={<Signup />} />
               <Route path="/tools" element={<ToolList />} />
               <Route path="/tools/:id" element={<ToolDetail />} /> {/* Add this route */}
+              <Route path="/welcome" element={<Welcome />} /> {/* Add this route */}
               <Route
                 path="/reservations"
                 element={

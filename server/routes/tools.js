@@ -52,4 +52,41 @@ router.delete('/:id', auth, admin, async (req, res) => {
   }
 });
 
+// Reserve a tool
+router.post('/:id/reserve', async (req, res) => {
+  try {
+    const tool = await Tool.findById(req.params.id);
+    if (!tool) {
+      return res.status(404).json({ message: 'Tool not found' });
+    }
+
+    if (tool.isReserved) {
+      return res.status(400).json({ message: 'Tool is already reserved' });
+    }
+
+    tool.isReserved = true; // Mark tool as reserved
+    await tool.save();
+
+    res.json({ message: 'Tool reserved successfully' });
+  } catch (err) {
+    console.error('Error reserving tool:', err);
+    res.status(500).json({ message: 'Failed to reserve tool' });
+  }
+});
+
+// Check tool availability
+router.get('/:id/availability', async (req, res) => {
+  try {
+    const tool = await Tool.findById(req.params.id);
+    if (!tool) {
+      return res.status(404).json({ message: 'Tool not found' });
+    }
+
+    res.json({ available: !tool.isReserved }); // Return availability status
+  } catch (err) {
+    console.error('Error checking availability:', err);
+    res.status(500).json({ message: 'Failed to check availability' });
+  }
+});
+
 module.exports = router;
